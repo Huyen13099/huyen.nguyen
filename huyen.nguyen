@@ -10,3 +10,504 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 350px;
+            width: 100%;
+            max-width: 350px;
+        }
+        .gradient-text {
+            background: -webkit-linear-gradient(45deg, #FBBF24, #C084FC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #FBBF24;
+            border: 4px solid #FFF1D6;
+        }
+    </style>
+</head>
+<body class="bg-[#FEFDFB] text-gray-800 antialiased">
+    <!-- Chosen Palette: Warm Neutrals - Background: #FEFDFB, Text: #374151, Primary Accent (Binance-inspired): #FBBF24, Secondary Accent (BCS Brand): #4338CA, Supporting Neutrals for cards/dividers: #F3F4F6, #E5E7EB. -->
+    <!-- Application Structure Plan: A single-page, top-to-bottom narrative flow designed to guide the user logically from value proposition to conversion. The structure is: 1. Hero (Attract), 2. The Problem (Context), 3. The Solution (Introduce), 4. Interactive Products (Engage/Inform), 5. Tokenomics/Sustainability (Build Trust), 6. Roadmap (Show Vision), 7. Team/Security (Verify Trust), 8. Referral Program (Incentivize), 9. FAQ (Resolve Doubts), 10. Community CTA (Convert). This story-telling approach is more persuasive and user-friendly than a dry report, addressing potential user questions at each stage and building momentum towards the call-to-action. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Staking Packages -> Goal: Engage/Compare -> Viz: Interactive ROI Calculator -> Interaction: User inputs investment amount & selects package to see dynamic ROI. Justification: Makes the abstract benefit of "high interest" tangible and personal, a powerful conversion tool. Library: Vanilla JS.
+        - Report Info: Token Allocation -> Goal: Inform/Organize -> Viz: Donut Chart -> Interaction: Hover on slices for details. Justification: More visually engaging and quicker to parse than a static table, enhancing trust through transparency. Library: Chart.js/Canvas.
+        - Report Info: Roadmap -> Goal: Inform/Show Progress -> Viz: Vertical Timeline Diagram -> Interaction: Static with 'completed' checkmarks. Justification: Clearly visualizes the project's past achievements and future plans, fostering long-term confidence. Method: HTML/Tailwind CSS.
+        - Report Info: FAQ -> Goal: Resolve Doubts -> Viz: Accordion List -> Interaction: Click to expand/collapse. Justification: Saves screen space and reduces information overload, allowing users to find answers to specific questions easily. Method: HTML `<details>` tag.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center py-4">
+                <a href="#" class="text-2xl font-bold gradient-text">BitSmartChain</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#solution" class="text-gray-600 hover:text-amber-500 transition">Giải Pháp</a>
+                    <a href="#products" class="text-gray-600 hover:text-amber-500 transition">Sản Phẩm</a>
+                    <a href="#tokenomics" class="text-gray-600 hover:text-amber-500 transition">Tokenomics</a>
+                    <a href="#roadmap" class="text-gray-600 hover:text-amber-500 transition">Lộ Trình</a>
+                    <a href="#faq" class="text-gray-600 hover:text-amber-500 transition">FAQ</a>
+                </div>
+                <button class="hidden md:block bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-lg transition">
+                    Mở Ứng Dụng
+                </button>
+                <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </nav>
+            <div id="mobile-menu" class="hidden md:hidden flex-col space-y-2 py-4">
+                 <a href="#solution" class="block text-gray-600 hover:text-amber-500 transition py-2">Giải Pháp</a>
+                 <a href="#products" class="block text-gray-600 hover:text-amber-500 transition py-2">Sản Phẩm</a>
+                 <a href="#tokenomics" class="block text-gray-600 hover:text-amber-500 transition py-2">Tokenomics</a>
+                 <a href="#roadmap" class="block text-gray-600 hover:text-amber-500 transition py-2">Lộ Trình</a>
+                 <a href="#faq" class="block text-gray-600 hover:text-amber-500 transition py-2">FAQ</a>
+                 <button class="w-full bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-lg transition mt-2">
+                    Mở Ứng Dụng
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+                    <span class="block">Tối Đa Hóa <span class="gradient-text">Lợi Nhuận DeFi</span></span>
+                    <span class="block">Tối Thiểu Hóa Rủi Ro.</span>
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
+                    BitSmartChain (BCS) là hệ sinh thái DeFi Banking toàn diện trên nền tảng Binance Smart Chain, mang đến lãi suất staking hấp dẫn, cơ chế token bền vững và một lộ trình công nghệ đột phá.
+                </p>
+                <div class="mt-8 flex justify-center items-center space-x-4">
+                    <button class="bg-amber-400 hover:bg-amber-500 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 text-lg">
+                        Mở Ứng Dụng
+                    </button>
+                    <a href="#tokenomics" class="font-semibold text-gray-700 hover:text-amber-500 transition text-lg">
+                        Đọc Whitepaper &rarr;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Kỷ Nguyên DeFi Bùng Nổ, Nhưng Thách Thức Vẫn Còn Đó</h2>
+                     <p class="mt-4 max-w-3xl mx-auto text-gray-600">DeFi đã mở ra một cuộc cách mạng tài chính, nhưng người dùng vẫn đối mặt với phí cao, lạm phát và rủi ro bảo mật. BitSmartChain được sinh ra để giải quyết những vấn đề cốt lõi này.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                        <h3 class="font-bold text-lg text-red-500">Phí Gas Cao</h3>
+                        <p class="mt-2 text-gray-600">Các mạng lưới phổ biến thường có phí giao dịch cao, làm giảm lợi nhuận của nhà đầu tư nhỏ.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                        <h3 class="font-bold text-lg text-red-500">Rủi Ro Lạm Phát</h3>
+                        <p class="mt-2 text-gray-600">Nhiều dự án phát hành token ồ ạt, khiến giá trị bị pha loãng và sụt giảm nhanh chóng.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                        <h3 class="font-bold text-lg text-red-500">Lỗ Hổng Bảo Mật</h3>
+                        <p class="mt-2 text-gray-600">Các cuộc tấn công vào hợp đồng thông minh đã gây thiệt hại hàng tỷ đô la cho nhà đầu tư.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                        <h3 class="font-bold text-lg text-red-500">Sự Phức Tạp</h3>
+                        <p class="mt-2 text-gray-600">Việc tương tác giữa các blockchain còn khó khăn, tạo rào cản cho người dùng mới.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="solution" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Giải Pháp BitSmartChain</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Chúng tôi xây dựng một hệ sinh thái dựa trên ba trụ cột cốt lõi để mang lại lợi nhuận vượt trội và sự bền vững dài lâu.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-amber-50 p-8 rounded-xl">
+                        <div class="text-4xl mb-4">📈</div>
+                        <h3 class="text-xl font-bold text-gray-900">Lợi Nhuận Hấp Dẫn</h3>
+                        <p class="mt-2 text-gray-600">Cung cấp các gói staking và lending với lãi suất cạnh tranh lên tới 13%/tháng, giúp bạn tối đa hóa thu nhập thụ động.</p>
+                    </div>
+                    <div class="bg-purple-50 p-8 rounded-xl">
+                        <div class="text-4xl mb-4">🛡️</div>
+                        <h3 class="text-xl font-bold text-gray-900">Tăng Trưởng Bền Vững</h3>
+                        <p class="mt-2 text-gray-600">Tích hợp cơ chế Halving định kỳ và chính sách khóa token dài hạn để chống lạm phát và bảo vệ giá trị cho nhà đầu tư.</p>
+                    </div>
+                    <div class="bg-sky-50 p-8 rounded-xl">
+                        <div class="text-4xl mb-4">🔗</div>
+                        <h3 class="text-xl font-bold text-gray-900">Công Nghệ Vững Mạnh</h3>
+                        <p class="mt-2 text-gray-600">Xây dựng trên BSC để có phí thấp, tốc độ nhanh và vạch ra lộ trình rõ ràng để trở thành một hệ sinh thái đa chuỗi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Sản Phẩm Đầu Tư</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Bắt đầu hành trình tạo thu nhập thụ động với các gói đầu tư linh hoạt và lợi nhuận tối ưu của chúng tôi.</p>
+                </div>
+                <div class="grid lg:grid-cols-5 gap-8 items-start">
+                    <div class="lg:col-span-3 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+                        <h3 class="font-bold text-2xl mb-6">Công Cụ Tính Lợi Nhuận</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="investmentAmount" class="block text-sm font-medium text-gray-700">Số tiền đầu tư (USDT)</label>
+                                <input type="number" id="investmentAmount" value="1000" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="packageSelect" class="block text-sm font-medium text-gray-700">Chọn gói đầu tư</label>
+                                <select id="packageSelect" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-200 space-y-4">
+                            <div>
+                                <p class="text-gray-600">Lợi nhuận hàng tháng (ước tính):</p>
+                                <p id="monthlyReturn" class="text-2xl font-bold text-green-600">... BCS</p>
+                            </div>
+                             <div>
+                                <p class="text-gray-600">Lợi nhuận cả kỳ (ước tính):</p>
+                                <p id="totalReturn" class="text-2xl font-bold text-green-600">... BCS</p>
+                            </div>
+                        </div>
+                         <p class="mt-4 text-xs text-gray-500">Lưu ý: Lợi nhuận được trả bằng token BCS và giá trị có thể biến động. Đây là tính toán ước tính, không phải cam kết lợi nhuận.</p>
+                    </div>
+                    <div class="lg:col-span-2 space-y-4">
+                         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                             <h4 class="font-bold text-lg text-amber-600">1. Kết Nối Ví</h4>
+                             <p class="mt-1 text-gray-600">Kết nối ví Web3 của bạn (MetaMask, Trust Wallet...).</p>
+                         </div>
+                         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                             <h4 class="font-bold text-lg text-amber-600">2. Chọn Gói & Đầu Tư</h4>
+                             <p class="mt-1 text-gray-600">Chọn gói phù hợp và nạp USDT hoặc BNB.</p>
+                         </div>
+                          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                             <h4 class="font-bold text-lg text-amber-600">3. Nhận Lãi Hàng Tháng</h4>
+                             <p class="mt-1 text-gray-600">Theo dõi lợi nhuận và nhận lãi bằng token BCS.</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tokenomics" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Nền Tảng Bền Vững</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Một nền kinh tế token minh bạch và cơ chế chống lạm phát là chìa khóa cho sự thành công dài hạn.</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Phân Bổ Token (Tổng Cung: 21 Tỷ BCS)</h3>
+                        <p class="text-gray-600 mb-6">Chúng tôi thiết kế một mô hình phân bổ minh bạch, đặt lợi ích của cộng đồng và sự ổn định của dự án lên hàng đầu. Đặc biệt, 35% tổng cung token thuộc về đội ngũ, đối tác và các quỹ dự phòng bị khóa trong tối thiểu 4 năm.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-blue-500 mr-3"></span>50% - Staking & Lending Pool</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-green-500 mr-3"></span>15% - Team & Dev (Khóa 4 năm)</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-yellow-500 mr-3"></span>12% - Liquidity Pool</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-purple-500 mr-3"></span>10% - Marketing & Partnership (Khóa 4 năm)</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-red-500 mr-3"></span>8% - Các quỹ khác (Reserve, Advisor, Airdrop)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="tokenomicsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                 <div class="mt-20 bg-amber-50 rounded-xl p-8 text-center">
+                    <h3 class="text-2xl font-bold text-gray-900">Cơ Chế Halving - Chìa Khóa Chống Lạm Phát</h3>
+                    <p class="mt-3 max-w-2xl mx-auto text-gray-600">Học hỏi từ Bitcoin, chúng tôi áp dụng cơ chế Halving sau mỗi 2 năm, giảm 50% phần thưởng staking mới được tạo ra. Điều này tạo ra sự khan hiếm, kiểm soát lạm phát và bảo vệ giá trị cho token BCS.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadmap" class="py-20">
+             <div class="container mx-auto px-4">
+                 <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Lộ Trình Phát Triển</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Hành trình của chúng tôi, từ ý tưởng đến một hệ sinh thái toàn cầu, được vạch ra một cách rõ ràng và minh bạch.</p>
+                </div>
+                <div class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-0 h-full border-l-2 border-dashed border-amber-300" style="left: -21px;"></div>
+                    <div class="space-y-12">
+                        <div class="relative pl-8 timeline-item">
+                            <h4 class="font-bold text-lg text-green-600">Giai Đoạn 1: Nền Tảng Vững Chắc (Đã Hoàn Thành)</h4>
+                            <ul class="list-disc list-inside mt-2 text-gray-600">
+                                <li>✓ Thiết kế Tokenomics & Cơ chế Halving.</li>
+                                <li>✓ Phát triển và Kiểm toán Smart Contract.</li>
+                                <li>✓ Thử nghiệm thành công trên Testnet.</li>
+                            </ul>
+                        </div>
+                        <div class="relative pl-8 timeline-item">
+                            <h4 class="font-bold text-lg text-sky-600">Giai Đoạn 2: Ra Mắt & Khởi Chạy (Đang Thực Hiện)</h4>
+                            <ul class="list-disc list-inside mt-2 text-gray-600">
+                                <li>✓ Ra mắt Mainnet trên Binance Smart Chain.</li>
+                                <li>✓ Khởi chạy Staking & Lending Pool.</li>
+                                <li>Niêm yết trên các sàn DEX hàng đầu.</li>
+                            </ul>
+                        </div>
+                         <div class="relative pl-8 timeline-item">
+                            <h4 class="font-bold text-lg">Giai Đoạn 3: Phát Triển Ứng Dụng & Trải Nghiệm Người Dùng</h4>
+                             <ul class="list-disc list-inside mt-2 text-gray-600">
+                                <li>Ra mắt DApp Quản lý Đầu tư chuyên biệt.</li>
+                                <li>Tích hợp Ví đa nền tảng.</li>
+                            </ul>
+                        </div>
+                         <div class="relative pl-8 timeline-item">
+                            <h4 class="font-bold text-lg">Giai Đoạn 4 & 5: Mở Rộng Hệ Sinh Thái</h4>
+                             <ul class="list-disc list-inside mt-2 text-gray-600">
+                                <li>Triển khai Marketing toàn cầu và hợp tác chiến lược.</li>
+                                <li>Xây dựng cầu nối Cross-chain tới các blockchain khác.</li>
+                                <li>Nghiên cứu và phát triển kiến trúc mạng lưới độc lập.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <section id="trust" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Niềm Tin & Minh Bạch</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-gray-600">Được xây dựng bởi chuyên gia, được bảo vệ bởi công nghệ. An toàn tài sản và sự tin tưởng của bạn là nền tảng cho mọi hoạt động của chúng tôi.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Kiểm Toán Bởi Các Đơn Vị Hàng Đầu</h3>
+                        <p class="text-gray-600 mb-6">Toàn bộ hợp đồng thông minh của BitSmartChain đã và đang được kiểm toán nghiêm ngặt bởi các công ty bảo mật blockchain độc lập và uy tín. Việc công khai báo cáo kiểm toán là bằng chứng rõ ràng nhất cho cam kết về sự an toàn của chúng tôi.</p>
+                        <div class="flex items-center space-x-8">
+                             <a href="#" class="grayscale hover:grayscale-0 transition duration-300" title="CertiK Audit">
+                                <img src="https://placehold.co/120x40/e5e7eb/6b7280?text=CertiK" alt="CertiK Logo" class="h-10">
+                            </a>
+                            <a href="#" class="grayscale hover:grayscale-0 transition duration-300" title="Beosin Audit">
+                                <img src="https://placehold.co/120x40/e5e7eb/6b7280?text=Beosin" alt="Beosin Logo" class="h-10">
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                         <h3 class="text-2xl font-bold mb-4">Đội Ngũ Phát Triển</h3>
+                         <p class="text-gray-600 mb-6">Chúng tôi là đội ngũ các chuyên gia có kinh nghiệm thực chiến trong lĩnh vực công nghệ blockchain, tài chính và an ninh mạng. Việc công khai danh tính là lời cam kết về trách nhiệm đối với cộng đồng.</p>
+                         <div class="flex space-x-4">
+                             <div class="text-center">
+                                 <img src="https://placehold.co/80x80/e2e8f0/4a5568?text=CEO" class="rounded-full mx-auto" alt="CEO">
+                                 <p class="mt-2 font-bold">Nguyễn Văn A</p>
+                                 <p class="text-sm text-gray-500">CEO</p>
+                             </div>
+                              <div class="text-center">
+                                 <img src="https://placehold.co/80x80/e2e8f0/4a5568?text=CTO" class="rounded-full mx-auto" alt="CTO">
+                                 <p class="mt-2 font-bold">Trần Thị B</p>
+                                 <p class="text-sm text-gray-500">CTO</p>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-20">
+            <div class="container mx-auto px-4 max-w-3xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Câu Hỏi Thường Gặp (FAQ)</h2>
+                </div>
+                <div class="space-y-4">
+                    <details class="group bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                            <span>BitSmartChain (BCS) là gì?</span>
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="text-gray-600 mt-3 group-open:animate-fadeIn">
+                            BCS là một hệ sinh thái DeFi trên nền tảng Binance Smart Chain, cung cấp các sản phẩm đầu tư, cho vay và staking với lãi suất cạnh tranh, kết hợp mô hình token bền vững và tầm nhìn công nghệ dài hạn.
+                        </p>
+                    </details>
+                    <details class="group bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                            <span>Làm thế nào để mua token BCS?</span>
+                             <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="text-gray-600 mt-3 group-open:animate-fadeIn">
+                            Trong giai đoạn đầu, bạn có thể sở hữu BCS bằng cách tham gia các gói Staking & Lending. Sau đó, chúng tôi sẽ niêm yết token trên các sàn DEX như PancakeSwap để bạn có thể mua bán tự do.
+                        </p>
+                    </details>
+                     <details class="group bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                            <span>Rủi ro khi đầu tư là gì?</span>
+                             <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="text-gray-600 mt-3 group-open:animate-fadeIn">
+                           Rủi ro chính bao gồm sự biến động giá của token và rủi ro từ hợp đồng thông minh. Chúng tôi giảm thiểu chúng bằng cơ chế Halving để hỗ trợ giá trị token và quy trình kiểm toán bảo mật nghiêm ngặt.
+                        </p>
+                    </details>
+                    <details class="group bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                            <span>Tôi có thể rút vốn đầu tư trước hạn không?</span>
+                             <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="text-gray-600 mt-3 group-open:animate-fadeIn">
+                           Có, nhưng một khoản phí rút trước hạn sẽ được áp dụng để đảm bảo sự công bằng và ổn định cho hệ thống. Chi tiết phí sẽ được quy định rõ trong từng gói đầu tư.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold gradient-text">BitSmartChain</h3>
+                    <p class="mt-2 text-gray-400">Xây dựng tương lai tài chính phi tập trung.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg">Tham Gia Cộng Đồng</h4>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">Telegram</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">Twitter</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">Discord</a>
+                    </div>
+                </div>
+                 <div>
+                    <h4 class="font-bold text-lg">Liên kết</h4>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#solution" class="text-gray-400 hover:text-white transition">Giải Pháp</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition">Sản Phẩm</a></li>
+                        <li><a href="#tokenomics" class="text-gray-400 hover:text-white transition">Tokenomics</a></li>
+                    </ul>
+                </div>
+            </div>
+             <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 BitSmartChain. All Rights Reserved.</p>
+                <p class="mt-1">Tuyên bố miễn trừ trách nhiệm: Đầu tư tiền điện tử có rủi ro. Vui lòng tự nghiên cứu trước khi đầu tư.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const investmentPackages = [
+                { name: 'Linh Hoạt (3 tháng)', rate: 0.05, duration: 3 },
+                { name: 'Tăng Trưởng (6 tháng)', rate: 0.075, duration: 6 },
+                { name: 'Tối Ưu (12 tháng)', rate: 0.10, duration: 12 },
+                { name: 'Chiến Lược (24 tháng)', rate: 0.13, duration: 24 }
+            ];
+
+            const amountInput = document.getElementById('investmentAmount');
+            const packageSelect = document.getElementById('packageSelect');
+            const monthlyReturnEl = document.getElementById('monthlyReturn');
+            const totalReturnEl = document.getElementById('totalReturn');
+
+            investmentPackages.forEach((pkg, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = pkg.name;
+                packageSelect.appendChild(option);
+            });
+
+            function calculateROI() {
+                const amount = parseFloat(amountInput.value) || 0;
+                const selectedPackage = investmentPackages[packageSelect.value];
+                
+                if (amount > 0 && selectedPackage) {
+                    const monthlyBCS = amount * selectedPackage.rate;
+                    const totalBCS = monthlyBCS * selectedPackage.duration;
+
+                    monthlyReturnEl.textContent = `${monthlyBCS.toLocaleString('vi-VN')} BCS`;
+                    totalReturnEl.textContent = `${totalBCS.toLocaleString('vi-VN')} BCS`;
+                } else {
+                    monthlyReturnEl.textContent = '0 BCS';
+                    totalReturnEl.textContent = '0 BCS';
+                }
+            }
+
+            amountInput.addEventListener('input', calculateROI);
+            packageSelect.addEventListener('change', calculateROI);
+            calculateROI();
+
+            const ctx = document.getElementById('tokenomicsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Staking & Lending Pool', 
+                        'Team & Dev', 
+                        'Liquidity Pool', 
+                        'Marketing & Partnership', 
+                        'Reserve, Advisor, Airdrop'
+                    ],
+                    datasets: [{
+                        label: 'Phân bổ Token',
+                        data: [50, 15, 12, 10, 8],
+                        backgroundColor: [
+                            '#3B82F6',
+                            '#10B981',
+                            '#FBBF24',
+                            '#8B5CF6',
+                            '#EF4444'
+                        ],
+                        borderColor: '#FEFDFB',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
